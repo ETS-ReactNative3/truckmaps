@@ -4,22 +4,26 @@ import {
     View,
     Text,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    Image,
+    Animated
   } from 'react-native';
   import MapView, { Marker, Callout } from 'react-native-maps';
   import connect from '../redux/connect';
-
+  
   
   class Map extends PureComponent {
       constructor(props){
           super(props)
           this.renderMarkers = this.renderMarkers.bind(this)
           this.renderMap = this.renderMap.bind(this)
+          this.toggleView = this.toggleView.bind(this)
 
           this.state = {
               latitude: null,
               longitude: null,
-              
+              showingDetails: false,
+              bounceValue: new Animated.Value(0)
           }
       }
 
@@ -40,7 +44,31 @@ import {
             locationInformation: nextProps.coordinates
           })
         }
+        if(this.props.singlePerson !== nextProps.singlePerson){
+            this.setState({
+                showingDetails: false
+            },() => this.toggleView())
+            
+        }
       }
+
+      toggleView() { 
+          const { showingDetails } = this.state;
+          let toValue = showingDetails ? 325 : -325
+          console.log(this.state.bounceValue, 'bounce') 
+            Animated.spring(
+                this.state.bounceValue,
+                {
+                toValue: toValue,
+                velocity: 3,
+                tension: 2,
+                friction: 8,
+                }
+            ).start();
+            this.setState({
+                showingDetails: !showingDetails
+            })
+    }
 
       renderMap(){
           const { coordinates } = this.props
@@ -51,10 +79,10 @@ import {
                         <MapView 
                             key={info.id}
                             region={{
-                                latitude: info.lat,
-                                longitude: info.lng,
-                                latitudeDelta: 0.05,
-                                longitudeDelta: 0.05
+                                latitude: info.lat - 0.001,
+                                longitude: info.lng + 0.0001,
+                                latitudeDelta: 0.01,
+                                longitudeDelta: 0.01
                             }}
                             style={styles.map}>
                         {this.renderMarkers()}
@@ -73,7 +101,7 @@ import {
       renderMarkers(){
         const { coordinates } = this.props;
         const { person } = this.props.singlePerson
-        if (coordinates.data.result){
+        if (coordinates.data.result){     
             return(
                 coordinates.data.result.map(info => {
                     return (
@@ -83,17 +111,26 @@ import {
                             coordinate={{
                                 latitude: info.lat,
                                 longitude: info.lng,
-                                latitudeDelta: 0.1,
-                                longitudeDelta: 0.1
+                                latitudeDelta: 0.01,
+                                longitudeDelta: 0.01
                             }}
                             title={person.fullName}
                             description={person.fullName}
-                        />
-                        <Callout>
+                        >
+                        {/* <View style={{backgroundColor: 'purple'}}>
+                        <Image style={{width: 40, height: 40, borderRadius: 20}} source={{uri: person.picture.thumbnail}} />
+                            <Text>{person.fullName}</Text>
+                        </View> */}
+                        {/* <Callout>
                             <View>
                                 <Text>THISISCALLOUT</Text>
+                                
                             </View>
-                        </Callout>
+                        </Callout> */}
+                        </Marker>
+                      
+                        
+                        
                         </Fragment>
                     )
                    })
@@ -108,6 +145,21 @@ import {
                 {
                     this.renderMap()
                 }
+                {/* {
+                    this.renderDetails()
+                } */}
+                        <Animated.View
+                            style={[styles.subView, {transform: [{translateY: this.state.bounceValue}]}]}
+                         >
+                         <TouchableOpacity onPress={() => {
+                             this.toggleView()
+                         }}>
+                             <Text>X</Text>
+                         </TouchableOpacity>
+                            <Text>This is a sub view</Text>
+                        </Animated.View>
+                        
+               
             </View>
             
           )
@@ -116,7 +168,15 @@ import {
   const fill = StyleSheet.absoluteFillObject;
   const styles = StyleSheet.create({
     container: fill,
-    map: fill
+    map: fill,
+    subView: {
+        position: "absolute",
+        bottom: -325,
+        left: 0,
+        right: 0,
+        backgroundColor: "#FFFFFF",
+        height: 325,
+      }
   })
   
   const mapState = (state) => ({
