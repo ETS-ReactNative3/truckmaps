@@ -10,7 +10,9 @@ import {
 
 import connect from '../redux/connect';
 
-import Map from './Map';
+import SearchBar from './SearchBar';
+import Map from './Map'
+
 
 class App extends PureComponent {
   componentDidMount() {
@@ -23,16 +25,18 @@ class App extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Map />
+        <Map style={styles.map} />
+        <View>
+          <SearchBar />
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: StyleSheet.absoluteFillObject
+  container: StyleSheet.absoluteFillObject,
 })
-
 const mapState = (state) => ({
   global: state.global
 })

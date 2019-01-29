@@ -8,7 +8,7 @@ import Api from '../../api';
 
 export function searchAutocomplete(value) {
   return (dispatch, getState) => {
-    console.log('searchAutocomplete action: ' + value);
+    console.log('searchAutocomplete action:;; ' + value);
 
     dispatch({
       type: SEARCH_AUTOCOMPLETE
