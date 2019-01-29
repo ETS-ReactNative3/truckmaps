@@ -106,31 +106,30 @@ import {
                 coordinates.data.result.map(info => {
                     return (
                         <Fragment>
-                        <Marker 
-                            key={person.fullName}
-                            coordinate={{
-                                latitude: info.lat,
-                                longitude: info.lng,
-                                latitudeDelta: 0.01,
-                                longitudeDelta: 0.01
-                            }}
-                            title={person.fullName}
-                            description={person.fullName}
-                        >
-                        {/* <View style={{backgroundColor: 'purple'}}>
-                        <Image style={{width: 40, height: 40, borderRadius: 20}} source={{uri: person.picture.thumbnail}} />
-                            <Text>{person.fullName}</Text>
-                        </View> */}
-                        {/* <Callout>
-                            <View>
-                                <Text>THISISCALLOUT</Text>
+                            <Marker 
+                                key={person.fullName}
+                                coordinate={{
+                                    latitude: info.lat,
+                                    longitude: info.lng,
+                                    latitudeDelta: 0.01,
+                                    longitudeDelta: 0.01
+                                }}
+                                title={person.fullName}
+                                description={person.fullName}
+                            >
                                 
-                            </View>
-                        </Callout> */}
-                        </Marker>
-                      
-                        
-                        
+                                <Callout>
+                                    <View style={styles.toolTipView}>
+                                        <Image style={styles.toolTipImage} source={{uri: person.picture.thumbnail}} />
+                                        <View>
+                                            <Text style={styles.toolTipText}>{person.fullName}</Text>
+                                            <Text style={styles.toolTipText}>{info.streetName}</Text>
+                                            <Text style={styles.toolTipText}>{info.city}</Text>
+                                            <Text style={styles.toolTipText}>{info.state}</Text>
+                                        </View>
+                                    </View>
+                                </Callout>
+                            </Marker>
                         </Fragment>
                     )
                    })
@@ -145,21 +144,16 @@ import {
                 {
                     this.renderMap()
                 }
-                {/* {
-                    this.renderDetails()
-                } */}
                         <Animated.View
                             style={[styles.subView, {transform: [{translateY: this.state.bounceValue}]}]}
                          >
-                         <TouchableOpacity onPress={() => {
-                             this.toggleView()
-                         }}>
-                             <Text>X</Text>
-                         </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                this.toggleView()
+                            }}>
+                                <Text>X</Text>
+                            </TouchableOpacity>
                             <Text>This is a sub view</Text>
                         </Animated.View>
-                        
-               
             </View>
             
           )
@@ -176,7 +170,23 @@ import {
         right: 0,
         backgroundColor: "#FFFFFF",
         height: 325,
-      }
+      },
+    toolTipView: {
+        display: 'flex', 
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'flex-start', 
+        justifyContent: 'flex-start'
+    },
+    toolTipText:{
+        paddingLeft: 5,
+    },
+    toolTipImage: {
+        width: 40, 
+        height: 40, 
+        borderRadius: 20, 
+        alignSelf: 'center'
+    }
   })
   
   const mapState = (state) => ({
