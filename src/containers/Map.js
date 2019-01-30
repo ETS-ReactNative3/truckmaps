@@ -11,7 +11,6 @@ import {
   import MapView, { Marker, Callout } from 'react-native-maps';
   import connect from '../redux/connect';
   
-  
   class Map extends PureComponent {
       constructor(props){
           super(props)
@@ -136,18 +135,30 @@ import {
             return (
                 <Animated.View style={[styles.subView, {transform: [{translateY: this.state.bounceValue}]}]}>
                 <View style={styles.detailView}>
-                    <Image style={{width: 100, height: 100 }} source={{ uri: person.picture.large }} />
-                    <View style={styles.detailViewPersonInfoView}>
-                        <Text style={styles.detailViewText}>Name: {person.fullName.toUpperCase()}</Text>
-                        <Text style={styles.detailViewText}>Cell: {person.cell}</Text>
-                        <Text style={styles.detailViewText}>Email: {person.email}</Text>
-                        <Text style={styles.detailViewText}>Username: {person.username}</Text>
+                    <Image style={{width: 100, height: 100, borderRadius:10 }} source={{ uri: person.picture.large }} />
+                    <View style={styles.detailViewPersonInfoView1}>
+                        <View style={styles.detailRow}>
+                            <Text style={styles.detailViewTextCell}>Name:</Text>
+                            <Text style={styles.detailViewTextCell}>{person.fullName.toUpperCase()}</Text>
+                        </View>
+                        <View style={styles.detailRow}>
+                            <Text style={styles.detailViewTextCell}>Cell:</Text>
+                            <Text style={styles.detailViewTextCell}>{person.cell}</Text>
+                        </View>
+                        <View style={styles.detailRow}>
+                            <Text style={styles.detailViewTextCell}>Email:</Text>
+                            <Text style={styles.detailViewTextCell}>{person.email}</Text>
+                        </View>
+                        <View style={styles.detailRow}>
+                            <Text style={styles.detailViewTextCell}>Username:</Text>
+                            <Text style={styles.detailViewTextCell}>{person.username}</Text>
+                        </View>
                     </View>
-                    <View>
+                    <View style={styles.xButtonView}>
                         <TouchableOpacity onPress={() => {
                         this.toggleView()
                         }}>
-                            <Text style={{display: 'flex', flexDirection: 'column', alignSelf: 'flex-start', fontSize: 16, paddingTop: 0, paddingLeft: 10, paddingRight: 10}}>X</Text>
+                            <Text style={{ fontFamily: 'FontAwesome', fontSize: 20, color: '#FD4439', paddingRight: 10 }}>&#xf057;</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -163,8 +174,8 @@ import {
                     interests.map(info => {
                         return (
                             <View key={info.id} style={{marginLeft: 5, marginRight: 5, borderRadius: 4, borderTopWidth: 4, bordeToprColor: '#d6d7da' }}>
-                            <Image source={{ uri: info.image }} style={{ width:100, height: 100}} />
-                            <Text style={{alignSelf: 'center', padding: 10}}>{info.hobby}</Text>
+                                <Image source={{ uri: info.image }} style={{ width:100, height: 100, borderRadius:10}} />
+                                <Text style={{alignSelf: 'center', padding: 10}}>{info.hobby}</Text>
                             </View>
                             
                         )
@@ -222,6 +233,13 @@ import {
         borderRadius: 30, 
         alignSelf: 'center'
     },
+    detailRow: {
+        display: 'flex', 
+        flexDirection: 'row',
+        alignItems: 'flex-start', 
+        justifyContent: 'flex-start',
+        paddingBottom: 10
+    },
     detailView: {
         display: 'flex',
         flexDirection: 'row',
@@ -240,16 +258,18 @@ import {
         justifyContent: 'flex-start',
         paddingLeft: 10,
     },
-    detailViewPersonInfoView: {
+    detailViewPersonInfoView1: {
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        paddingLeft: 10
     },
-    detailViewText: {
-        marginBottom: 5
+    detailViewTextCell: {
+        paddingLeft: 5,
+    },
+    xButtonView: {
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
     }
   })
   
