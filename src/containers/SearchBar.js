@@ -73,7 +73,6 @@ class SearchBar extends PureComponent {
     this.props.actions.fetchPerson(person)
     this.setState({
       searchQuery: person.fullName,
-      // coordinate,
       person,
     })
   }
