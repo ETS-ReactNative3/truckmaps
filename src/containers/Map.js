@@ -226,6 +226,7 @@ import {
     },
     toolTipText:{
         paddingLeft: 5,
+        fontFamily: 'TitilliumWeb-Regular'
     },
     toolTipImage: {
         width: 60, 
