@@ -3,7 +3,6 @@ import {
     StyleSheet,
     View,
     Text,
-    TextInput,
     TouchableOpacity,
     Image,
     Animated,
@@ -31,23 +30,6 @@ import {
       }
 
       componentWillReceiveProps(nextProps) {
-        // if(this.props.people !== nextProps.people){
-        //   let newPeopleList = nextProps.people.people.map(person => {
-        //     person.fullName = `${person.name.first} ${person.name.last}`
-        //     console.log('DO I NEED?')
-        //     return person;
-        //   })
-        //   this.setState({
-        //     // search: props.search,
-        //     // user: props.user
-        //     peopleList: newPeopleList
-        //   });
-        // }
-        // if(this.props.coordinates !== nextProps.people){
-        //   this.setState({
-        //     locationInformation: nextProps.coordinates
-        //   })
-        // }
         if(this.props.singlePerson !== nextProps.singlePerson){
             const { interest_ids } = nextProps.singlePerson.person
             this.props.actions.fetchInterests(interest_ids)
@@ -91,7 +73,9 @@ import {
                                 longitudeDelta: 0.01
                             }}
                             style={styles.map}>
-                        {this.renderMarkers()}
+                        {
+                            this.renderMarkers()
+                        }
                         </MapView>
                     )
                 }) 
@@ -127,7 +111,7 @@ import {
                                     <View style={styles.toolTipView}>
                                         <Image style={styles.toolTipImage} source={{uri: person.picture.thumbnail}} />
                                         <View>
-                                            <Text style={styles.toolTipText}>{person.fullName}</Text>
+                                            <Text style={styles.toolTipText}>{person.fullName.toUpperCase()}</Text>
                                             <Text style={styles.toolTipText}>{info.streetName}</Text>
                                             <Text style={styles.toolTipText}>{info.city}</Text>
                                             <Text style={styles.toolTipText}>{info.state}</Text>
@@ -146,46 +130,48 @@ import {
     renderDetails(){
         const { person } = this.props.singlePerson
         const { picture } = this.props.singlePerson.person
-        const { interests} = this.props
+        const { interests} = this.props.interests
         if(picture && interests){
-            const pictureObject = person.picture
-            console.log(pictureObject)
-            console.log(interests, 'objk')
             return (
                 <Animated.View style={[styles.subView, {transform: [{translateY: this.state.bounceValue}]}]}>
-                <TouchableOpacity onPress={() => {
-                    this.toggleView()
-                }}>
-                    <Text>X</Text>
-                </TouchableOpacity>
                 <View style={styles.detailView}>
-                <Image style={{width: 100, height: 100, borderRadius: 20}} source={{ uri: person.picture.large }} />
-                <View style={styles.detailViewPersonInfoView}>
-                <Text style={styles.detailViewText}>{person.fullName}</Text>
-                <Text style={styles.detailViewText}>{person.cell}</Text>
-                <Text style={styles.detailViewText}>{person.email}</Text>
-                <Text style={styles.detailViewText}>{person.username}</Text>
+                    <Image style={{width: 100, height: 100 }} source={{ uri: person.picture.large }} />
+                    <View style={styles.detailViewPersonInfoView}>
+                        <Text style={styles.detailViewText}>Name: {person.fullName.toUpperCase()}</Text>
+                        <Text style={styles.detailViewText}>Cell: {person.cell}</Text>
+                        <Text style={styles.detailViewText}>Email: {person.email}</Text>
+                        <Text style={styles.detailViewText}>Username: {person.username}</Text>
+                    </View>
+                    <View>
+                        <TouchableOpacity onPress={() => {
+                        this.toggleView()
+                        }}>
+                            <Text style={{display: 'flex', flexDirection: 'column', alignSelf: 'flex-start', fontSize: 16, paddingTop: 0, paddingLeft: 10, paddingRight: 10}}>X</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                </View>
+                <Text style={{paddingTop: 10, paddingBottom: 10, paddingRight: 10, paddingLeft: 15}}>Hobbies: (scroll horizontal...)</Text>
+                
+                <View style={styles.hobbyView}>
                 <ScrollView
                     horizontal={true}
                 >
-                <View style={[styles.detailView, {paddingTop: 100}]}>
+
+                
                 {
-                    interests.interests.map(info => {
-                        console.log(info.hobby,'info')
+                    interests.map(info => {
                         return (
-                            
-                            <View key={info.id} style={{marginLeft: 5, marginRight: 5, borderRadius: 4, borderWidth: 0.5, borderColor: '#d6d7da' }}>
+                            <View key={info.id} style={{marginLeft: 5, marginRight: 5, borderRadius: 4, borderTopWidth: 4, bordeToprColor: '#d6d7da' }}>
                             <Image source={{ uri: info.image }} style={{ width:100, height: 100}} />
-                            <Text style={{alignSelf: 'center'}}>{info.hobby}</Text>
+                            <Text style={{alignSelf: 'center', padding: 10}}>{info.hobby}</Text>
                             </View>
                             
                         )
                     })
                 }
-                </View>
                 </ScrollView>
+                </View>
+                
             </Animated.View>
             )
         } else {
@@ -241,7 +227,17 @@ import {
         flex: 1,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        paddingLeft: 10
+        paddingLeft: 10,
+        marginBottom: -50,
+        paddingTop: 10
+    },
+    hobbyView: {
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        paddingLeft: 10,
     },
     detailViewPersonInfoView: {
         display: 'flex',
@@ -249,10 +245,10 @@ import {
         flex: 1,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        paddingLeft: 10,
+        paddingLeft: 10
     },
     detailViewText: {
-        paddingBottom: 10
+        marginBottom: 5
     }
   })
   

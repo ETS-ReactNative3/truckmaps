@@ -1,8 +1,8 @@
 'use strict';
 
 export function getRandomLatLon() {
-    var latitude = 51.5074;
-    var longitude = -0.1278;
+    var latitude = 41.881832;
+    var longitude = -87.623177;
     var radius = 10000;
     var x0 = longitude;
     var y0 = latitude;
