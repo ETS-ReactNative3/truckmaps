@@ -1,5 +1,5 @@
 import {
-    FETCH_ALL_PEOPLE
+    FETCH_ALL_PEOPLE,
   } from '../../constants/actions';
   
   const initial = {
@@ -10,6 +10,7 @@ import {
     switch (action.type) {
       case FETCH_ALL_PEOPLE:
         return {
+            ...state, 
             people: action.payload
         }
     }

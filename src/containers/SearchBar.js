@@ -29,8 +29,7 @@ class SearchBar extends PureComponent {
       search: props.search,
       user: props.user,
       peopleList: [],
-      searchQuery: '',
-      mapMarker: false
+      searchQuery: ''
     }
   }
 
@@ -51,11 +50,11 @@ class SearchBar extends PureComponent {
         peopleList: newPeopleList
       });
     }
-    if(this.props.coordinates !== nextProps.people){
-      this.setState({
-        locationInformation: nextProps.coordinates
-      })
-    }
+    // if(this.props.coordinates !== nextProps.people){
+    //   this.setState({
+    //     locationInformation: nextProps.coordinates
+    //   })
+    // }
   }
 
   onChangeText(searchQuery){
@@ -110,13 +109,7 @@ class SearchBar extends PureComponent {
 
 
   render() {
-    const {
-      searchQuery,
-      person,
-      mapMarker,
-      coordinate,
-      locationInformation
-    } = this.state;
+    const { searchQuery } = this.state;
 
     const people = this.renderAutoCompleteList(searchQuery);
     return (
@@ -181,7 +174,8 @@ const mapState = (state) => ({
   search: state.search,
   user: state.user,
   people: state.people,
-  coordinates: state.location
+  coordinates: state.location,
+  interests: state.interests
 })
 
 export default connect(mapState)(SearchBar);

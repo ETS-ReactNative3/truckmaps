@@ -8,7 +8,7 @@ import * as userActions from './user/userActions';
 import * as fetchPeopleActions from './people/fetchPeopleActions';
 import * as fetchLocation from './location/locationActions';
 import * as fetchSinglePersonActions from './people/fetchSinglePersonActions';
-
+import * as fetchInterests from './people/fetchInterestsActions';
 
 export const actions = [
   globalActions,
@@ -16,7 +16,8 @@ export const actions = [
   userActions,
   fetchPeopleActions,
   fetchLocation,
-  fetchSinglePersonActions
+  fetchSinglePersonActions,
+  fetchInterests
 ];
 
 // Reducers
@@ -27,6 +28,7 @@ import user from './user/userReducer';
 import people from './people/fetchPeopleReducer';
 import location from './location/locationReducer';
 import singlePerson from './people/fetchSinglePersonReducer';
+import interests from './people/fetchInterestsReducer';
 
 import { combineReducers } from 'redux';
 
@@ -36,5 +38,6 @@ export const rootReducer = combineReducers({
   user,
   people,
   location,
-  singlePerson
+  singlePerson,
+  interests
 });

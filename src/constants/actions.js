@@ -11,6 +11,7 @@ const actions = keymirror({
   FETCH_LOCATION_SUCCESS: null,
   FETCH_LOCATION_FAIL: null,
   FETCH_SINGLE_PERSON: null,
+  FETCH_INTERESTS: null
 
   //...
 })

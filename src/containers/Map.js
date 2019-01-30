@@ -6,7 +6,8 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
-    Animated
+    Animated,
+    ScrollView
   } from 'react-native';
   import MapView, { Marker, Callout } from 'react-native-maps';
   import connect from '../redux/connect';
@@ -18,35 +19,41 @@ import {
           this.renderMarkers = this.renderMarkers.bind(this)
           this.renderMap = this.renderMap.bind(this)
           this.toggleView = this.toggleView.bind(this)
+          this.renderDetails = this.renderDetails.bind(this)
 
           this.state = {
               latitude: null,
               longitude: null,
               showingDetails: false,
-              bounceValue: new Animated.Value(0)
+              bounceValue: new Animated.Value(0),
+              interests: []
           }
       }
 
       componentWillReceiveProps(nextProps) {
-        if(this.props.people !== nextProps.people){
-          let newPeopleList = nextProps.people.people.map(person => {
-            person.fullName = `${person.name.first} ${person.name.last}`
-            return person;
-          })
-          this.setState({
-            // search: props.search,
-            // user: props.user
-            peopleList: newPeopleList
-          });
-        }
-        if(this.props.coordinates !== nextProps.people){
-          this.setState({
-            locationInformation: nextProps.coordinates
-          })
-        }
+        // if(this.props.people !== nextProps.people){
+        //   let newPeopleList = nextProps.people.people.map(person => {
+        //     person.fullName = `${person.name.first} ${person.name.last}`
+        //     console.log('DO I NEED?')
+        //     return person;
+        //   })
+        //   this.setState({
+        //     // search: props.search,
+        //     // user: props.user
+        //     peopleList: newPeopleList
+        //   });
+        // }
+        // if(this.props.coordinates !== nextProps.people){
+        //   this.setState({
+        //     locationInformation: nextProps.coordinates
+        //   })
+        // }
         if(this.props.singlePerson !== nextProps.singlePerson){
+            const { interest_ids } = nextProps.singlePerson.person
+            this.props.actions.fetchInterests(interest_ids)
             this.setState({
-                showingDetails: false
+                showingDetails: false,
+                interests: nextProps.singlePerson.person.interest_ids
             },() => this.toggleView())
             
         }
@@ -55,7 +62,6 @@ import {
       toggleView() { 
           const { showingDetails } = this.state;
           let toValue = showingDetails ? 325 : -325
-          console.log(this.state.bounceValue, 'bounce') 
             Animated.spring(
                 this.state.bounceValue,
                 {
@@ -105,7 +111,7 @@ import {
             return(
                 coordinates.data.result.map(info => {
                     return (
-                        <Fragment>
+                        <Fragment key={person.fullName}>
                             <Marker 
                                 key={person.fullName}
                                 coordinate={{
@@ -117,8 +123,7 @@ import {
                                 title={person.fullName}
                                 description={person.fullName}
                             >
-                                
-                                <Callout>
+                                <Callout key={person.fullName}>
                                     <View style={styles.toolTipView}>
                                         <Image style={styles.toolTipImage} source={{uri: person.picture.thumbnail}} />
                                         <View>
@@ -136,24 +141,67 @@ import {
             )
 
         }
-      
       }
+
+    renderDetails(){
+        const { person } = this.props.singlePerson
+        const { picture } = this.props.singlePerson.person
+        const { interests} = this.props
+        if(picture && interests){
+            const pictureObject = person.picture
+            console.log(pictureObject)
+            console.log(interests, 'objk')
+            return (
+                <Animated.View style={[styles.subView, {transform: [{translateY: this.state.bounceValue}]}]}>
+                <TouchableOpacity onPress={() => {
+                    this.toggleView()
+                }}>
+                    <Text>X</Text>
+                </TouchableOpacity>
+                <View style={styles.detailView}>
+                <Image style={{width: 100, height: 100, borderRadius: 20}} source={{ uri: person.picture.large }} />
+                <View style={styles.detailViewPersonInfoView}>
+                <Text style={styles.detailViewText}>{person.fullName}</Text>
+                <Text style={styles.detailViewText}>{person.cell}</Text>
+                <Text style={styles.detailViewText}>{person.email}</Text>
+                <Text style={styles.detailViewText}>{person.username}</Text>
+                </View>
+                </View>
+                <ScrollView
+                    horizontal={true}
+                >
+                <View style={[styles.detailView, {paddingTop: 100}]}>
+                {
+                    interests.interests.map(info => {
+                        console.log(info.hobby,'info')
+                        return (
+                            
+                            <View key={info.id} style={{marginLeft: 5, marginRight: 5, borderRadius: 4, borderWidth: 0.5, borderColor: '#d6d7da' }}>
+                            <Image source={{ uri: info.image }} style={{ width:100, height: 100}} />
+                            <Text style={{alignSelf: 'center'}}>{info.hobby}</Text>
+                            </View>
+                            
+                        )
+                    })
+                }
+                </View>
+                </ScrollView>
+            </Animated.View>
+            )
+        } else {
+            <View></View>
+        }
+    }
+
       render(){
           return (
             <View style={styles.container}>
                 {
                     this.renderMap()
                 }
-                        <Animated.View
-                            style={[styles.subView, {transform: [{translateY: this.state.bounceValue}]}]}
-                         >
-                            <TouchableOpacity onPress={() => {
-                                this.toggleView()
-                            }}>
-                                <Text>X</Text>
-                            </TouchableOpacity>
-                            <Text>This is a sub view</Text>
-                        </Animated.View>
+                {
+                    this.renderDetails()
+                }
             </View>
             
           )
@@ -168,7 +216,7 @@ import {
         bottom: -325,
         left: 0,
         right: 0,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "#ffffff",
         height: 325,
       },
     toolTipView: {
@@ -186,6 +234,25 @@ import {
         height: 40, 
         borderRadius: 20, 
         alignSelf: 'center'
+    },
+    detailView: {
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        paddingLeft: 10
+    },
+    detailViewPersonInfoView: {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        paddingLeft: 10,
+    },
+    detailViewText: {
+        paddingBottom: 10
     }
   })
   
@@ -194,7 +261,8 @@ import {
     user: state.user,
     people: state.people,
     coordinates: state.location,
-    singlePerson: state.singlePerson
+    singlePerson: state.singlePerson,
+    interests: state.interests
   })
   
   export default connect(mapState)(Map);

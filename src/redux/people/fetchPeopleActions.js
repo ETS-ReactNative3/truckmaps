@@ -1,6 +1,7 @@
 import {
     FETCH_ALL_PEOPLE
   } from '../../constants/actions';
+  
 import peopleData from '../../data/people.json';
 
   export function fetchAllPeople() {
@@ -13,4 +14,3 @@ import peopleData from '../../data/people.json';
       })
     }
   }
-  
