@@ -10,7 +10,7 @@ import {
   } from 'react-native';
   import MapView, { Marker, Callout } from 'react-native-maps';
   import connect from '../redux/connect';
-  
+
   class Map extends PureComponent {
       constructor(props){
           super(props)
@@ -138,20 +138,20 @@ import {
                     <Image style={{width: 100, height: 100, borderRadius:10 }} source={{ uri: person.picture.large }} />
                     <View style={styles.detailViewPersonInfoView1}>
                         <View style={styles.detailRow}>
-                            <Text style={styles.detailViewTextCell}>Name:</Text>
-                            <Text style={styles.detailViewTextCell}>{person.fullName.toUpperCase()}</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Name:</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.fullName.toUpperCase()}</Text>
                         </View>
                         <View style={styles.detailRow}>
-                            <Text style={styles.detailViewTextCell}>Cell:</Text>
-                            <Text style={styles.detailViewTextCell}>{person.cell}</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Cell:</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.cell}</Text>
                         </View>
                         <View style={styles.detailRow}>
-                            <Text style={styles.detailViewTextCell}>Email:</Text>
-                            <Text style={styles.detailViewTextCell}>{person.email}</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Email:</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.email}</Text>
                         </View>
                         <View style={styles.detailRow}>
-                            <Text style={styles.detailViewTextCell}>Username:</Text>
-                            <Text style={styles.detailViewTextCell}>{person.username}</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Username:</Text>
+                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.username}</Text>
                         </View>
                     </View>
                     <View style={styles.xButtonView}>
@@ -162,7 +162,7 @@ import {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Text style={{paddingTop: 10, paddingBottom: 10, paddingRight: 10, paddingLeft: 15}}>Hobbies: (scroll horizontal...)</Text>
+                <Text style={{paddingTop: 10, paddingBottom: 10, paddingRight: 10, paddingLeft: 15, fontFamily: 'TitilliumWeb-Bold'}}>Hobbies:</Text>
                 
                 <View style={styles.hobbyView}>
                 <ScrollView
@@ -175,7 +175,7 @@ import {
                         return (
                             <View key={info.id} style={{marginLeft: 5, marginRight: 5, borderRadius: 4, borderTopWidth: 4, bordeToprColor: '#d6d7da' }}>
                                 <Image source={{ uri: info.image }} style={{ width:100, height: 100, borderRadius:10}} />
-                                <Text style={{alignSelf: 'center', padding: 10}}>{info.hobby}</Text>
+                                <Text style={{alignSelf: 'center', padding: 10, fontFamily: 'TitilliumWeb-Regular'}}>{info.hobby}</Text>
                             </View>
                             
                         )
@@ -265,6 +265,7 @@ import {
     },
     detailViewTextCell: {
         paddingLeft: 5,
+        fontFamily: 'TitilliumWeb-Regular'
     },
     xButtonView: {
         display: 'flex',

@@ -45,16 +45,9 @@ class SearchBar extends PureComponent {
         return person;
       })
       this.setState({
-        // search: props.search,
-        // user: props.user
         peopleList: newPeopleList
       });
     }
-    // if(this.props.coordinates !== nextProps.people){
-    //   this.setState({
-    //     locationInformation: nextProps.coordinates
-    //   })
-    // }
   }
 
   onChangeText(searchQuery){
@@ -76,7 +69,6 @@ class SearchBar extends PureComponent {
   }
 
   handleSelect(person){
-    // const coordinate = getRandomLatLon()
     this.props.actions.fetchLocation(getRandomLatLon())
     this.props.actions.fetchPerson(person)
     this.setState({
@@ -90,7 +82,7 @@ class SearchBar extends PureComponent {
     renderTextInput(props) {
       return (
         <TextInput
-          style={styles.inputContainerStyle}
+          style={{ fontFamily: 'TitilliumWeb-Regular' }}
           placeholder="Search for a user"
           onChangeText={this.onChangeText}
           underlineColorAndroid='transparent'
@@ -128,8 +120,8 @@ class SearchBar extends PureComponent {
               <View style={styles.autoCompleteList}>
                 <Image style={{width: 40, height: 40, borderRadius: 20}} source={{uri: item.picture.thumbnail}} />
                 <View style={styles.autoCompleteText}>
-                  <Text>{item.fullName}</Text>
-                  <Text>{item.cell}</Text>
+                  <Text style={{ fontFamily: 'TitilliumWeb-Regular' }}>{item.fullName.toUpperCase()}</Text>
+                  <Text style={{ fontFamily: 'TitilliumWeb-Regular' }}>{item.cell}</Text>
                 </View>
               </View>
               </TouchableOpacity>
