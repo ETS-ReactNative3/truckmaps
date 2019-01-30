@@ -156,7 +156,7 @@ import {
                     </View>
                     <View style={styles.xButtonView}>
                         <TouchableOpacity onPress={() => {
-                        this.toggleView()
+                            this.toggleView()
                         }}>
                             <Text style={{ fontFamily: 'FontAwesome', fontSize: 20, color: '#FD4439', paddingRight: 10 }}>&#xf057;</Text>
                         </TouchableOpacity>
