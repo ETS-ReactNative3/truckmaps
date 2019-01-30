@@ -66,6 +66,7 @@ import {
                     return(
                         <MapView 
                             key={info.id}
+                            showsUserLocation
                             region={{
                                 latitude: info.lat - 0.001,
                                 longitude: info.lng + 0.0001,
@@ -216,9 +217,9 @@ import {
         paddingLeft: 5,
     },
     toolTipImage: {
-        width: 40, 
-        height: 40, 
-        borderRadius: 20, 
+        width: 60, 
+        height: 60, 
+        borderRadius: 30, 
         alignSelf: 'center'
     },
     detailView: {
