@@ -81,7 +81,7 @@ class SearchBar extends PureComponent {
     renderTextInput(props) {
       return (
         <TextInput
-          style={{ fontFamily: 'TitilliumWeb-Regular' }}
+          style={styles.textFont}
           placeholder="Search for a user"
           onChangeText={this.onChangeText}
           underlineColorAndroid='transparent'
@@ -119,8 +119,8 @@ class SearchBar extends PureComponent {
               <View style={styles.autoCompleteList}>
                 <Image style={{width: 40, height: 40, borderRadius: 20}} source={{uri: item.picture.thumbnail}} />
                 <View style={styles.autoCompleteText}>
-                  <Text style={{ fontFamily: 'TitilliumWeb-Regular' }}>{item.fullName.toUpperCase()}</Text>
-                  <Text style={{ fontFamily: 'TitilliumWeb-Regular' }}>{item.cell}</Text>
+                  <Text style={styles.textFont}>{item.fullName.toUpperCase()}</Text>
+                  <Text style={styles.textFont}>{item.cell}</Text>
                 </View>
               </View>
               </TouchableOpacity>
@@ -159,6 +159,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#ddd',
   },
+  textFont: {
+    fontFamily: 'TitilliumWeb-Regular'
+  }
 })
 
 const mapState = (state) => ({

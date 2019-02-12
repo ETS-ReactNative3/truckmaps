@@ -138,31 +138,31 @@ import {
                     <Image style={{width: 100, height: 100, borderRadius:10 }} source={{ uri: person.picture.large }} />
                     <View style={styles.detailViewPersonInfoView1}>
                         <View style={styles.detailRow}>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Name:</Text>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.fullName.toUpperCase()}</Text>
+                            <Text style={[styles.detailViewTextCell, styles.boldFont]}>Name:</Text>
+                            <Text style={[styles.detailViewTextCell, styles.secondaryFont]}>{person.fullName.toUpperCase()}</Text>
                         </View>
                         <View style={styles.detailRow}>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Cell:</Text>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.cell}</Text>
+                            <Text style={[styles.detailViewTextCell, styles.boldFont]}>Cell:</Text>
+                            <Text style={[styles.detailViewTextCell, styles.secondaryFont]}>{person.cell}</Text>
                         </View>
                         <View style={styles.detailRow}>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Email:</Text>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.email}</Text>
+                            <Text style={[styles.detailViewTextCell, styles.boldFont]}>Email:</Text>
+                            <Text style={[styles.detailViewTextCell, styles.secondaryFont]}>{person.email}</Text>
                         </View>
                         <View style={styles.detailRow}>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Bold'}]}>Username:</Text>
-                            <Text style={[styles.detailViewTextCell, {fontFamily: 'TitilliumWeb-Regular'}]}>{person.username}</Text>
+                            <Text style={[styles.detailViewTextCell, styles.boldFont]}>Username:</Text>
+                            <Text style={[styles.detailViewTextCell, styles.secondaryFont]}>{person.username}</Text>
                         </View>
                     </View>
                     <View style={styles.xButtonView}>
                         <TouchableOpacity onPress={() => {
                             this.toggleView()
                         }}>
-                            <Text style={{ fontFamily: 'FontAwesome', fontSize: 20, color: '#FD4439', paddingRight: 10 }}>&#xf057;</Text>
+                            <Text style={styles.fontAwesomeIcon}>&#xf057;</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Text style={{paddingTop: 10, paddingBottom: 10, paddingRight: 10, paddingLeft: 15, fontFamily: 'TitilliumWeb-Bold'}}>Hobbies:</Text>
+                <Text style={styles.hobbyTitle}>Hobbies:</Text>
                 
                 <View style={styles.hobbyView}>
                 <ScrollView
@@ -173,9 +173,9 @@ import {
                 {
                     interests.map(info => {
                         return (
-                            <View key={info.id} style={{marginLeft: 5, marginRight: 5, borderRadius: 4, borderTopWidth: 4, bordeToprColor: '#d6d7da' }}>
+                            <View key={info.id} style={styles.hobbyContainer}>
                                 <Image source={{ uri: info.image }} style={{ width:100, height: 100, borderRadius:10}} />
-                                <Text style={{alignSelf: 'center', padding: 10, fontFamily: 'TitilliumWeb-Regular'}}>{info.hobby}</Text>
+                                <Text style={styles.hobbyText}>{info.hobby}</Text>
                             </View>
                             
                         )
@@ -272,6 +272,36 @@ import {
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
+    },
+    boldFont: {
+        fontFamily: 'TitilliumWeb-Bold'
+    },
+    secondaryFont: {
+        fontFamily: 'TitilliumWeb-Regular'
+    },
+    hobbyTitle: {
+        paddingTop: 10, 
+        paddingBottom: 10, 
+        paddingRight: 10, 
+        paddingLeft: 15, 
+        fontFamily: 'TitilliumWeb-Bold'
+    },
+    hobbyText: {
+        alignSelf: 'center', 
+        padding: 10, 
+        fontFamily: 'TitilliumWeb-Regular'
+    },
+    hobbyContainer: {
+        marginLeft: 5, 
+        marginRight: 5, 
+        borderRadius: 4, 
+        borderTopWidth: 4
+    },
+    fontAwesomeIcon: {
+        fontFamily: 'FontAwesome', 
+        fontSize: 20, 
+        color: '#FD4439', 
+        paddingRight: 10
     }
   })
   
